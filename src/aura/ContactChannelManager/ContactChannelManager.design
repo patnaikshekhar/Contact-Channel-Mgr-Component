@@ -1,0 +1,8 @@
+<design:component >
+    <design:attribute name="icon" label="Icon" />
+    <design:attribute name="placeholderText" label="Place holder text for message input" />
+    <design:attribute name="cacheMessages" label="Should messages be cached in local storage?" />
+    <design:attribute name="refreshMessages" label="Should messages be automatically be refreshed?" description="Turn this off if you hit connect api limits" />
+    <design:attribute name="refreshMessageInterval" label="Refresh Interval" />
+    <design:attribute name="showNotifications" label="Show web notifications?" />
+</design:component>

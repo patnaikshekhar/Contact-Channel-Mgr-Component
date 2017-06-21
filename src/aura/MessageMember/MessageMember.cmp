@@ -1,0 +1,52 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" controller="ContactChannelManagerService" access="global" >
+    
+    <aura:attribute name="networks" type="Object[]" access="Private" />
+    <aura:attribute name="message" type="String" default="" access="Public" />
+    <aura:attribute name="selectedNetwork" type="String" access="Public" />
+    <aura:attribute name="previousMessages" type="Object[]" access="Public" />
+    <aura:attribute name="messages" type="Object[]" access="Private" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.init }" />
+    
+    <div class="slds-grid slds-wrap slds-grid_pull-padded-medium">
+        <div class="slds-col slds-p-horizontal_medium slds-size_1-of-1 slds-medium-size_1-of-2">
+            <div class="card">
+                <lightning:select label="Select a Community" value="{!v.selectedNetwork}" onchange="{! c.changeNetwork }">
+                    <aura:iteration items="{! v.networks }" var="network">
+                        <option text="{! network.Network.Name }" value="{! network.networkId }" />
+                    </aura:iteration>
+                </lightning:select>
+                <lightning:textarea value="{! v.message }" label="Your Message" class="send-message" />
+                <lightning:button onclick="{! c.sendMessage }" variant="brand" class="full-width">Send</lightning:button>
+            </div>
+        </div>
+        <div class="slds-col--padded slds-p-horizontal_medium slds-size_1-of-1 slds-medium-size_1-of-2">
+            <div class="card">
+                <div class="message-history-label">
+                    <h2>Message History</h2>
+                </div>
+                <ul class="slds-feed__list">
+                    <aura:iteration items="{! v.messages }" var="message">
+                        <li>
+                            <article class="slds-post">
+                                <header class="slds-post__header slds-media">
+                                    <div class="slds-media__figure">
+                                        <a href="javascript:void(0);" class="slds-avatar slds-avatar_circle slds-avatar_large">
+                                            <img src="{! message.actor.photo.smallPhotoUrl }" />
+                                        </a>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <span class="smaller-text">{! message.actor.name }</span>
+                                        <div class="slds-post__content slds-text-longform">
+                                            <span>{! message.body.text }</span>
+                                        </div>
+                                    </div>
+                                </header>
+                            </article>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+        </div>
+    </div>
+</aura:component>

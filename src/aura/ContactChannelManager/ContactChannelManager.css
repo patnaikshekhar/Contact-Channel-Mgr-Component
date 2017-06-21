@@ -1,0 +1,63 @@
+.THIS {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.THIS.my-channel-partner {
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    font-size: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    z-index: 102;
+}
+
+.THIS.my-channel-partner.activated {
+    background-color: #9a9c9d;
+}
+
+.THIS .icon svg {
+    fill: white !important;
+}
+
+.THIS.messages {
+    margin-bottom: 70px;
+    opacity: 0;
+    transition: 0.5s opacity ease-in-out;
+}
+
+.THIS.messages.show {
+    opacity: 1;
+}
+
+.THIS .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: black;
+    color: white;
+}
+
+@media only screen and (max-width: 47.9375em) {
+    
+    .THIS.my-channel-partner {
+        padding: 15px;
+    }
+    
+    .THIS.messages.show {
+        width: 100%;
+        max-height: 100vh;
+    }
+    
+    .THIS.messages {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 101;
+        background-color: white;
+        height: 100%;
+    }
+}

@@ -1,0 +1,24 @@
+.THIS .card {
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 0 1px rgba(76,86,103,.25), 0 2px 18px rgba(31,37,50,.32);
+    height: 450px;
+    overflow: scroll;
+}
+
+.THIS .message-history-label {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
+
+.THIS .full-width {
+    width: 100%;
+}
+
+.THIS .slds-textarea {
+    height: 200px;
+}
+
+.THIS .send-message {
+    margin-top: 10px;
+}

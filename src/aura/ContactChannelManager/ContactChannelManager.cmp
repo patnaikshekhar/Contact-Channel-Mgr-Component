@@ -1,0 +1,33 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="ContactChannelManagerService">
+    
+    <aura:attribute name="icon" type="String" default="utility:new_direct_message" access="global" />
+    <aura:attribute name="placeholderText" default="Contact your channel manager" type="String" access="global" />
+    <aura:attribute name="buttonColor" default="#ef494f" type="String" access="global" />
+    <aura:attribute name="buttonInactiveColor" default="#9a9c9d" type="String" access="global" />
+    
+    <aura:attribute name="cacheMessages" default="true" type="Boolean" access="global" />
+    <aura:attribute name="refreshMessages" default="true" type="Boolean" access="global" />
+    <aura:attribute name="refreshMessageInterval" default="20000" type="Integer" access="global" />
+    <aura:attribute name="showNotifications" default="true" type="Boolean" access="global" />
+    
+    <aura:attribute name="showMessages" type="Boolean" default="false" access="Private" />
+    <aura:attribute name="messages" type="Object[]" access="Private" />
+    <aura:attribute name="newMessageCount" type="Integer" default="0" access="Private" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.init }" />
+    
+    <div class="{! 'messages ' + (v.showMessages ? 'show ': '') }">
+        <c:messageBox messages="{! v.messages }" placeholderText="{! v.placeholderText }" onSendMessage="{! c.sendMessage }"/>
+    </div>
+    <div class="{! 'my-channel-partner ' + (v.showMessages ? 'activated ': '') }" onclick="{! c.showMessageDialog }">        
+        <aura:if isTrue="{! v.newMessageCount &gt; 0 }">
+        	<lightning:badge label="{! v.newMessageCount }" class="badge"/>
+        </aura:if>
+        <aura:if isTrue="{! v.showMessages }">
+			<lightning:icon iconName="utility:close" class="icon" />
+            <aura:set attribute="else">
+                <lightning:icon iconName="{! v.icon }" class="icon" />
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

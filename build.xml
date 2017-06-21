@@ -1,0 +1,41 @@
+<project name="Sample usage of Salesforce Ant tasks" default="retrieveCode" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <!-- Include main property file containing credentials -->
+    <property file="build.properties"/>
+
+    <!-- Include the Force.com Migration Toolkit library -->
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="ant-salesforce.jar" />
+        </classpath>
+    </taskdef>
+
+    <!-- Deploy Code to UAT -->
+    <target name="deployUAT">
+
+      <!-- Deploy full contents to UAT and run all local tests -->
+      <sf:deploy
+        username="${sf.dest.username}"
+        password="${sf.dest.password}"
+        serverurl="${sf.dest.serverurl}"
+        maxPoll="${sf.maxPoll}"
+        deployRoot="src"
+        testLevel="RunLocalTests"
+        rollbackOnError="true" />
+    </target>
+
+    <!-- Retrieve all Code from the Dev sandbox -->
+    <target name="retrieveCode">
+      <mkdir dir="src" />
+
+      <!-- Retrieve the contents listed in the file codepkg/package.xml into the codepkg directory -->
+      <sf:retrieve
+        username="${sf.dev.username}"
+        password="${sf.dev.password}"
+        serverurl="${sf.dev.serverurl}"
+        maxPoll="${sf.maxPoll}"
+        retrieveTarget="src"
+        unpackaged="package.xml" />
+
+    </target>
+</project>

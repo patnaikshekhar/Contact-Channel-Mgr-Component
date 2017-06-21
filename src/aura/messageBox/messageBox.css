@@ -1,0 +1,82 @@
+.THIS.message-box {
+    background-color: white;
+    width: 400px;
+    font-size: 0.8em;
+    box-shadow: 0 0 1px rgba(76,86,103,.25), 0 2px 18px rgba(31,37,50,.32);
+    z-index: 101;
+    overflow: scroll;
+}
+
+.THIS .slds-feed__list {
+}
+
+.THIS .smaller-text {
+    font-size: 0.8em;
+    color: #ef494f;
+}
+
+.THIS .message-text {
+    border: 0;
+    box-sizing: border-box;
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+    height: 54px;
+    line-height: 18px;
+    padding: 0 60px 0 25px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 30px; 
+}
+
+.THIS .message-form {
+    position: relative;
+}
+
+.THIS .send-button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    height: 50px;
+    background-color: #ef494f;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.THIS .slds-post {
+    background-color: #FFF;
+}
+
+.THIS .slds-avatar {
+    width: 2rem;
+    height: 2rem;
+}
+
+.THIS.nubin {
+    position: absolute;
+    right: 10px;
+    transform: rotateZ(45deg);
+    background-color: #FFF;
+    bottom: -10px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 0 1 rgba(76,86,103,.25);
+    z-index: 101;
+}
+
+@media only screen and (max-width: 47.9375em) {
+    .THIS.nubin {
+        display: none;
+    }
+    
+    .THIS.message-box {
+        width: 100%;
+    }
+    
+    .THIS.message-box {
+        box-shadow: none;
+        border-bottom: 1px solid #ddd;
+    }
+}

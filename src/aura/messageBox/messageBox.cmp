@@ -1,0 +1,37 @@
+<aura:component access="Public">
+	
+    <aura:attribute name="messages" type="Object[]" access="Public" />
+    <aura:attribute name="placeholderText" type="String" access="Public" />
+    
+    <aura:registerEvent name="onSendMessage" type="c:standardJSEvent" description="Event fired when enter is clicked" access="Public" />
+    
+    <div class="message-box slds-feed">
+        <div class="message-form">
+        	<input type="text" placeholder="{! v.placeholderText }" class="slds-input message-text" onkeyup="{! c.triggerSendMessage }" aura:id="messageText"/>
+            <button class="slds-button send-button" onclick="{! c.sendButtonClicked }">Send</button>
+        </div>
+        <ul class="slds-feed__list">
+            <aura:iteration items="{! v.messages }" var="message">
+                <li>
+                    <article class="slds-post">
+                        <header class="slds-post__header slds-media">
+                            <div class="slds-media__figure">
+                                <a href="javascript:void(0);" class="slds-avatar slds-avatar_circle slds-avatar_large">
+                                	<img src="{! message.actor.photo.smallPhotoUrl }" />
+                                </a>
+                                
+                            </div>
+                            <div class="slds-media__body">
+                                <span class="smaller-text">{! message.actor.name }</span>
+                                <div class="slds-post__content slds-text-longform">
+                                    <span>{! message.body.text }</span>
+                                </div>
+                            </div>
+                        </header>
+                    </article>
+                </li>
+            </aura:iteration>
+        </ul>
+    </div>
+    <div class="nubin"></div>
+</aura:component>
