@@ -135,7 +135,7 @@ public with sharing class ContactChannelManagerService {
         Boolean result = false;
 
         if (message != null && message != '') {
-            if (userId != null && networkId != null) {
+            if (userId != null) {
                 
                 ConnectApi.MessageBodyInput messageInput = new ConnectApi.MessageBodyInput();
                 messageInput.messageSegments = new List<ConnectApi.MessageSegmentInput>();
