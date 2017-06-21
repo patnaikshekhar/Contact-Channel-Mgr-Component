@@ -10,6 +10,7 @@
   <types>
     <members>ContactChannelManager</members>
     <members>messageBox</members>
+    <members>standardJSEvent</members>
     <members>MessageMember</members>
     <name>AuraDefinitionBundle</name>
   </types>
