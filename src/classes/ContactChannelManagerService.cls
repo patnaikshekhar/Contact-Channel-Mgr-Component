@@ -89,7 +89,7 @@ public with sharing class ContactChannelManagerService {
 	  * @return List of Feed Items of the feeds
 	*/
 	@AuraEnabled
-    public static Boolean sendDMToChannelManager(String message) {
+    public static Boolean sendDMToChannelManager(String message, String fileName, String fileContents) {
         
         Boolean result = false;
 
@@ -118,7 +118,7 @@ public with sharing class ContactChannelManagerService {
                 
                 result = true;*/
                 
-                return sendDM(channelManagerId, Network.getNetworkId(), message);
+                return sendDM(channelManagerId, Network.getNetworkId(), message, fileName, fileContents);
             }
         }
         
@@ -130,7 +130,7 @@ public with sharing class ContactChannelManagerService {
 	  * @return whether the message was sent
 	*/
 	@AuraEnabled
-    public static Boolean sendDM(Id userId, Id networkId, String message) {
+    public static Boolean sendDM(Id userId, Id networkId, String message, String fileName, String fileContents) {
         
         Boolean result = false;
 
@@ -153,8 +153,28 @@ public with sharing class ContactChannelManagerService {
                 input.capabilities = new ConnectApi.FeedElementCapabilitiesInput();
                 input.capabilities.directMessage = dmCapability;
                 
-                if (!Test.isRunningTest())
-                	ConnectApi.ChatterFeeds.postFeedElement(networkId, input);
+                if (fileName != null) {
+                    input.capabilities.files = new ConnectAPI.FilesCapabilityInput();
+                    input.capabilities.files.items = new List<ConnectAPI.FileIdInput>();
+                    ConnectAPI.FileIdInput attachFile = new ConnectAPI.FileIDInput();
+                    
+                    ContentVersion version = new ContentVersion();
+                    version.Title = fileName;
+                    version.PathOnClient = fileName;
+                    version.VersionData = EncodingUtil.base64Decode(fileContents);
+                    
+                    if (!Test.isRunningTest()) {
+                    	insert version;    
+                        version = [SELECT ID,ContentDocumentId FROM ContentVersion WHERE ID=:version.id];
+                        attachFile.id = version.contentDocumentid; 
+                    }
+                    
+                    input.capabilities.files.items.add(attachFile);
+                }
+                
+                if (!Test.isRunningTest()) {
+                    ConnectApi.ChatterFeeds.postFeedElement(networkId, input);
+                }	
                 
                 result = true;
             }

@@ -219,7 +219,7 @@ private class TestContactChannelManagerService {
 		Test.startTest();
 
 		System.runAs(partnerCommunityUser) {
-			sent = ContactChannelManagerService.sendDMToChannelManager(null);
+			sent = ContactChannelManagerService.sendDMToChannelManager(null, null, null);
 		}
 
 		Test.stopTest();
@@ -242,7 +242,30 @@ private class TestContactChannelManagerService {
 		Test.startTest();
 
 		System.runAs(partnerCommunityUser) {
-			sent = ContactChannelManagerService.sendDMToChannelManager('Here is a message');
+			sent = ContactChannelManagerService.sendDMToChannelManager('Here is a message', null, null);
+		}
+
+		Test.stopTest();
+
+		System.assertEquals(true, sent);
+	}
+    
+    @isTest static void sendDMToChannelManager_WhenFileIsAttached_IsSent() {
+
+		User standardUser = createStandardUser('System Administrator');
+        
+		User partnerCommunityUser;
+		
+        System.runAs(standardUser) {
+			partnerCommunityUser = createPartnerCommunityUser();
+		}
+        
+        Boolean sent = false;
+        
+		Test.startTest();
+
+		System.runAs(partnerCommunityUser) {
+			sent = ContactChannelManagerService.sendDMToChannelManager('Here is a message', 'SampleFile.txt', EncodingUtil.base64Encode(Blob.valueOf('Test')));
 		}
 
 		Test.stopTest();

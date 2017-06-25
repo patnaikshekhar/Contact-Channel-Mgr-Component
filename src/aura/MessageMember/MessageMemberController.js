@@ -34,7 +34,9 @@
             networkId: allNetworks.filter(function(network) {
                 return network.Network.Name == selectedNetwork;
             })[0].NetworkId,
-            message: component.get('v.message')
+            message: component.get('v.message'),
+            fileName: null,
+            fileContents: null
         }
         
         action.setParams(params);    

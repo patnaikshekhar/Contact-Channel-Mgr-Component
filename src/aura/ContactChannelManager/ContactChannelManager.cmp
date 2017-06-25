@@ -10,9 +10,9 @@
     <aura:attribute name="refreshMessageInterval" default="20000" type="Integer" access="global" />
     <aura:attribute name="showNotifications" default="true" type="Boolean" access="global" />
     
-    <aura:attribute name="showMessages" type="Boolean" default="false" access="Private" />
-    <aura:attribute name="messages" type="Object[]" access="Private" />
-    <aura:attribute name="newMessageCount" type="Integer" default="0" access="Private" />
+    <aura:attribute name="showMessages" type="Boolean" default="false" access="Public" />
+    <aura:attribute name="messages" type="Object[]" access="Public" />
+    <aura:attribute name="newMessageCount" type="Integer" default="0" access="Public" />
     
     <aura:handler name="init" value="{! this }" action="{! c.init }" />
     

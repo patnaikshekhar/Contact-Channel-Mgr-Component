@@ -3,9 +3,55 @@
 		var action = component.get('c.getDMFromChannelManager');
         
         action.setCallback(this, function(result) {
-            console.log('Result from action', result.getState())
             if (result.getState() == 'SUCCESS') {
                 console.log('Return Value', result.getReturnValue());
+                
+                var messages = result.getReturnValue().reduce(function(acc, message) {
+                    
+                    var file = null;
+                    
+                    if (message.capabilities.files) {
+                        if (message.capabilities.files.items) {
+                            if (message.capabilities.files.items.length > 0) {
+                                file = {
+                                    url: message.capabilities.files.items[0].downloadUrl,
+                                    thumbnail: message.capabilities.files.items[0].renditionUrl,
+                                    title: message.capabilities.files.items[0].title 
+                                };
+                            }
+                        }    
+                    }
+                    
+                    var msg = {
+                        actor: message.actor.name,
+                        photo: message.actor.photo.smallPhotoUrl,
+                        text: message.body.text,
+                        id: message.id,
+                        file: file
+                    };
+                    
+                    var result = acc.concat(msg);
+                    
+                    if (message.capabilities.comments) {
+                        var comments = message.capabilities.comments.page.items.reduce(function(acc, comment) {
+                            var msg = {
+                                actor: comment.user.name,
+                                photo: comment.user.photo.smallPhotoUrl,
+                                text: comment.body.text,
+                                id: comment.id
+                            };
+                            
+                            return acc.concat(msg);
+                        }, []);
+                        
+                        result = comments.concat(result);
+                    } 
+                    
+                    return result;
+                   
+                }, []);
+                
+                console.log('messages', messages);
                 
                 var oldMessages = component.get('v.messages') ? component.get('v.messages') : [];
                 
@@ -13,7 +59,7 @@
                    return msg.id; 
                 });
                 
-                component.set('v.messages', result.getReturnValue());
+                component.set('v.messages', messages);
                 
                 var newMessages = component.get('v.messages').filter(function(msg) {
                    return oldMessageIds.indexOf(msg.id) == -1;
@@ -32,7 +78,7 @@
                 }
                 
                 // Store messages
-                helper.storeMessages(component, result.getReturnValue());
+                helper.storeMessages(component, messages);
                 
             } else {
                 console.error(result.getError());
@@ -45,7 +91,11 @@
     sendDirectMessage: function(component, event, helper) {
 		var action = component.get('c.sendDMToChannelManager');
         
-        action.setParams({ message: event.getParam('value') });
+        action.setParams({ 
+            message: event.getParam('value').message,
+            fileName: event.getParam('value').file ? event.getParam('value').file.name : null,
+            fileContents: event.getParam('value').file ? event.getParam('value').file.contents : null
+        });
         
         action.setCallback(this, function(result) {
             if (result.getState() == 'SUCCESS') {

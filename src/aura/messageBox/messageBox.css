@@ -4,6 +4,7 @@
     font-size: 0.8em;
     box-shadow: 0 0 1px rgba(76,86,103,.25), 0 2px 18px rgba(31,37,50,.32);
     z-index: 101;
+    max-height: 600px;
     overflow: scroll;
 }
 
@@ -27,11 +28,11 @@
     width: 100%;
     border-bottom: 1px solid #ddd;
     border-radius: 4px 4px 0 0;
-    margin-bottom: 30px; 
 }
 
 .THIS .message-form {
     position: relative;
+    margin-bottom: 30px; 
 }
 
 .THIS .send-button {
@@ -79,4 +80,19 @@
         box-shadow: none;
         border-bottom: 1px solid #ddd;
     }
+}
+
+.THIS .file {
+    text-align: center;
+}
+
+.THIS input[type=file] {
+    height: 0;
+    width: 0;
+}
+
+.THIS .attach-icon {
+    position: absolute;
+    top: 15px;
+    right: 60px;
 }

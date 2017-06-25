@@ -3,12 +3,23 @@
     <aura:attribute name="messages" type="Object[]" access="Public" />
     <aura:attribute name="placeholderText" type="String" access="Public" />
     
+    <aura:attribute name="uploadedFileName" type="String" default="" access="Private" />
+    
     <aura:registerEvent name="onSendMessage" type="c:standardJSEvent" description="Event fired when enter is clicked" access="Public" />
     
     <div class="message-box slds-feed">
         <div class="message-form">
         	<input type="text" placeholder="{! v.placeholderText }" class="slds-input message-text" onkeyup="{! c.triggerSendMessage }" aura:id="messageText"/>
+            <aura:if isTrue="{! v.uploadedFileName == '' }">
+            	<lightning:buttonIcon iconName="utility:attach" variant="bare" alternativeText="Attach" onclick="{! c.attachClicked }" size="large" class="attach-icon" />
+            </aura:if>
             <button class="slds-button send-button" onclick="{! c.sendButtonClicked }">Send</button>
+            <input type="file" aura:id="fileInput" onchange="{! c.fileUploaded }" />
+            <aura:if isTrue="{! v.uploadedFileName != '' }">
+            	<div class="uploadedFile">
+                    <lightning:pill label="{! v.uploadedFileName }" onremove="{! c.removeFile }" />
+                </div>
+            </aura:if>
         </div>
         <ul class="slds-feed__list">
             <aura:iteration items="{! v.messages }" var="message">
@@ -17,15 +28,22 @@
                         <header class="slds-post__header slds-media">
                             <div class="slds-media__figure">
                                 <a href="javascript:void(0);" class="slds-avatar slds-avatar_circle slds-avatar_large">
-                                	<img src="{! message.actor.photo.smallPhotoUrl }" />
+                                	<img src="{! message.photo }" />
                                 </a>
-                                
                             </div>
                             <div class="slds-media__body">
-                                <span class="smaller-text">{! message.actor.name }</span>
+                                <span class="smaller-text">{! message.actor }</span>
                                 <div class="slds-post__content slds-text-longform">
-                                    <span>{! message.body.text }</span>
+                                    <span>{! message.text }</span>
                                 </div>
+                                <aura:if isTrue="{! message.file }">
+                                    <div class="file">
+                                        <a href="{! message.file.url }">
+                                            <img src="{! message.file.thumbnail }" />
+                                            <div class="title">{! message.file.title }</div>
+                                        </a>
+                                    </div>
+                                </aura:if>
                             </div>
                         </header>
                     </article>
