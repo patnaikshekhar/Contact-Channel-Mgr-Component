@@ -1,6 +1,8 @@
 ({
 	init: function(component, event, helper) {
         
+        helper.init(component);
+        
         helper.requestNotificationPermission(component, helper);
         
 		helper.getDirectMessages(component, helper, false);

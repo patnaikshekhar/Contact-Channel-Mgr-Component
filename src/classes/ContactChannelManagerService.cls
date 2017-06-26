@@ -196,4 +196,33 @@ public with sharing class ContactChannelManagerService {
         
         return null;
     }
+    
+    public class InitResult {
+        @AuraEnabled public ConnectApi.Photo photo;
+        @AuraEnabled public Id channelManagerId;
+        @AuraEnabled public Id userId;
+    }
+    
+    /**
+	  * Gets basic details of user and channel manager
+	  * @return photo,channelManagerId and UserId in current context
+	*/
+    @AuraEnabled
+    public static InitResult getInitialisationDetails() {
+        Id channelManagerId = getChannelManager();
+        InitResult result = new InitResult();
+        
+        result.channelManagerId = channelManagerId;
+        result.userId = UserInfo.getUserId();
+        
+        if (channelManagerId != null) {
+       		ConnectApi.Photo photo;
+            if (!Test.isRunningTest())
+            	photo = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), channelManagerId);
+            
+            result.photo = photo;
+        }
+        
+        return result;
+    }
 }

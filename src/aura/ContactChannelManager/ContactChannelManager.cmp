@@ -4,6 +4,7 @@
     <aura:attribute name="placeholderText" default="Contact your channel manager" type="String" access="global" />
     <aura:attribute name="buttonColor" default="#ef494f" type="String" access="global" />
     <aura:attribute name="buttonInactiveColor" default="#9a9c9d" type="String" access="global" />
+    <aura:attribute name="showChannelMgrPictureInsteadOfIcon" default="false" type="Boolean" access="global" />
     
     <aura:attribute name="cacheMessages" default="true" type="Boolean" access="global" />
     <aura:attribute name="refreshMessages" default="true" type="Boolean" access="global" />
@@ -13,6 +14,7 @@
     <aura:attribute name="showMessages" type="Boolean" default="false" access="Public" />
     <aura:attribute name="messages" type="Object[]" access="Public" />
     <aura:attribute name="newMessageCount" type="Integer" default="0" access="Public" />
+    <aura:attribute name="cmPictureUrl" type="String" default="" access="Public" />
     
     <aura:handler name="init" value="{! this }" action="{! c.init }" />
     
@@ -26,7 +28,12 @@
         <aura:if isTrue="{! v.showMessages }">
 			<lightning:icon iconName="utility:close" class="icon" />
             <aura:set attribute="else">
-                <lightning:icon iconName="{! v.icon }" class="icon" />
+                <aura:if isTrue="{! v.cmPictureUrl == '' }">
+                	<lightning:icon iconName="{! v.icon }" class="icon" />
+                    <aura:set attribute="else">
+                        <img class="cm-picture" src="{! v.cmPictureUrl }" alt="Channel Managers Picture" />
+                    </aura:set>
+                </aura:if>
             </aura:set>
         </aura:if>
     </div>

@@ -293,4 +293,27 @@ private class TestContactChannelManagerService {
         
         System.assertNotEquals(null, result);
     }
+    
+    @isTest static void getInitialisationDetails_WhenChannelManagerExists_ReturnsValidData() {
+        User standardUser = createStandardUser('System Administrator');
+
+		User partnerCommunityUser;
+		Id channelManager;
+		
+        ContactChannelManagerService.InitResult result;
+        
+		System.runAs(standardUser) {
+			partnerCommunityUser = createPartnerCommunityUser();
+		}
+
+		Test.startTest();
+
+		System.runAs(partnerCommunityUser) {
+			result = ContactChannelManagerService.getInitialisationDetails();
+		}
+
+		Test.stopTest();
+        
+        System.assertEquals(standardUser.Id, result.channelManagerId);
+    }
 }

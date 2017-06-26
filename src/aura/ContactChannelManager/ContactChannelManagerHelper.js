@@ -1,4 +1,21 @@
 ({
+    init: function(component, callback) {
+        var action = component.get('c.getInitialisationDetails');
+        
+        action.setCallback(this, function(result) {
+            if (result.getState() == 'SUCCESS') {
+                if (component.get('v.showChannelMgrPictureInsteadOfIcon') == true) {
+                    console.log('Setting picture url to ', result.getReturnValue().photo.smallPhotoUrl);
+                	component.set('v.cmPictureUrl', result.getReturnValue().photo.smallPhotoUrl);
+                }
+            } else {
+                console.error(result.getError());
+            }
+        });
+        
+        $A.enqueueAction(action);
+    },
+    
 	getDirectMessages: function(component, helper, hideNewMessages) {
 		var action = component.get('c.getDMFromChannelManager');
         
