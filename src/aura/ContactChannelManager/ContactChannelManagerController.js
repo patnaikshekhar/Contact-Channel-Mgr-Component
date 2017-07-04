@@ -5,9 +5,9 @@
         
         helper.requestNotificationPermission(component, helper);
         
-		helper.getDirectMessages(component, helper, false);
-        
         helper.getStoredMessages(component, helper);
+        
+		helper.getDirectMessages(component, helper, false);
         
         // Refresh after every few seconds
         helper.setRefresh(component, helper);

@@ -8,11 +8,12 @@
     overflow: scroll;
 }
 
-.THIS .slds-feed__list {
+.THIS .slds-post .slds-post__content {
+    font-size: 1.3em;
 }
 
 .THIS .smaller-text {
-    font-size: 0.8em;
+    font-size: 1em;
     color: #ef494f;
 }
 
@@ -24,15 +25,22 @@
     font-weight: 400;
     height: 54px;
     line-height: 18px;
-    padding: 0 60px 0 25px;
+    padding: 0 90px 0 25px;
     width: 100%;
     border-bottom: 1px solid #ddd;
     border-radius: 4px 4px 0 0;
 }
 
 .THIS .message-form {
-    position: relative;
-    margin-bottom: 30px; 
+    position: relative; 
+}
+
+.THIS .message-form.margin-bottom {
+    margin-bottom: 30px;
+}
+
+.THIS .message-form.less-margin-bottom {
+    margin-bottom: 8px;
 }
 
 .THIS .send-button {
@@ -78,7 +86,15 @@
     
     .THIS.message-box {
         box-shadow: none;
+        max-height: 95vh;
+    }
+    
+    .THIS.message-box.border-bottom {
         border-bottom: 1px solid #ddd;
+    }
+    
+    .THIS .message-form.less-margin-bottom {
+        margin-bottom: 0;
     }
 }
 

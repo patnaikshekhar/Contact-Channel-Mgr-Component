@@ -25,36 +25,28 @@
 	},
     
     sendMessage: function(component, event, helper) {
-        var action = component.get('c.sendDM');
-        var allNetworks = component.get('v.networks');
-        var selectedNetwork = component.get('v.selectedNetwork');
-        
-        var params = {
-            userId: allNetworks[0].MemberId,
-            networkId: allNetworks.filter(function(network) {
-                return network.Network.Name == selectedNetwork;
-            })[0].NetworkId,
-            message: component.get('v.message'),
-            fileName: null,
-            fileContents: null
-        }
-        
-        action.setParams(params);    
-            
-        action.setCallback(this, function(result) {
-            if (result.getState() == 'SUCCESS') {
-                console.log('Message sent');
-                var dismissActionPanel = $A.get("e.force:closeQuickAction");
-                dismissActionPanel.fire();
-            } else {
-                console.error(result.getError());
-            }
-        });
-        
-        $A.enqueueAction(action);
+        helper.sendMessage(component, event, helper);
     },
     
     changeNetwork: function(component, event, helper) {
         helper.getMessagesForNetwork(component);
+    },
+    
+    attachClicked: function(component, event, helper) {
+        event.preventDefault();
+        event.stopPropagation();
+        component.find('fileInput').getElement().click();
+    },
+    
+    fileUploaded: function(component, event, helper) {
+        var fileInput = component.find("fileInput").getElement();
+        var file = fileInput.files[0];
+        component.set('v.uploadedFileName', file.name);
+    },
+    
+    removeFile: function(component, event, helper) {
+        var fileInput = component.find("fileInput").getElement();
+        fileInput.value = '';
+        component.set('v.uploadedFileName', '');
     }
 })

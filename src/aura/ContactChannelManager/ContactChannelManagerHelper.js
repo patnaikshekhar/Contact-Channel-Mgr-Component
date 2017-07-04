@@ -5,8 +5,9 @@
         action.setCallback(this, function(result) {
             if (result.getState() == 'SUCCESS') {
                 if (component.get('v.showChannelMgrPictureInsteadOfIcon') == true) {
-                    console.log('Setting picture url to ', result.getReturnValue().photo.smallPhotoUrl);
-                	component.set('v.cmPictureUrl', result.getReturnValue().photo.smallPhotoUrl);
+                    if (result.getReturnValue().photo) {
+                    	component.set('v.cmPictureUrl', result.getReturnValue().photo.smallPhotoUrl);    
+                    }
                 }
             } else {
                 console.error(result.getError());
@@ -47,28 +48,24 @@
                         file: file
                     };
                     
-                    var result = acc.concat(msg);
-                    
                     if (message.capabilities.comments) {
                         var comments = message.capabilities.comments.page.items.reduce(function(acc, comment) {
-                            var msg = {
+                            var msgComment = {
                                 actor: comment.user.name,
                                 photo: comment.user.photo.smallPhotoUrl,
                                 text: comment.body.text,
                                 id: comment.id
                             };
                             
-                            return acc.concat(msg);
+                            return acc.concat(msgComment);
                         }, []);
                         
-                        result = comments.concat(result);
-                    } 
-                    
-                    return result;
+                        return acc.concat(comments.concat(msg));
+                    } else {
+                     	return acc.concat(msg);   
+                    }
                    
                 }, []);
-                
-                console.log('messages', messages);
                 
                 var oldMessages = component.get('v.messages') ? component.get('v.messages') : [];
                 
@@ -88,11 +85,16 @@
                     var existingCount = parseInt(component.get('v.newMessageCount'));
                     
                     component.set('v.newMessageCount', existingCount + newMessages.length);
-                    
                     newMessages.forEach(function(msg) {
-                    	helper.sendNotification(component, msg.body.text);
+                    	helper.sendNotification(component, msg.text);
                     });
                 }
+                
+                // Set the text color for the posts
+                setTimeout(function() {
+                	helper.setPostTextColor(component);    
+                }, 0);
+                
                 
                 // Store messages
                 helper.storeMessages(component, messages);
@@ -155,7 +157,7 @@
                     try {
                     	component.set('v.messages', JSON.parse(messages));    
                     } catch(e) {
-                        console.log('Error', e, ' autofixing message store');
+                        console.error('Error', e, ' autofixing message store');
                         // Fix message store
                         helper.storeMessages(component, null);
                         component.set('v.messages', null);    
@@ -200,5 +202,19 @@
                     showMessages ? component.get('v.buttonInactiveColor') : component.get('v.buttonColor');
             } 
         });
+    },
+    
+    setPostTextColor: function(component) {
+        var primaryColor = component.get('v.buttonColor');
+        
+        if(primaryColor && component.getElement()) {
+        	// Set color for smaller text elements
+            var allSmallTextElements = component.getElement().querySelectorAll('.smaller-text');
+            
+            for (var x = 0; x < allSmallTextElements.length; x++) {
+                allSmallTextElements[x].style.color = primaryColor;
+                console.log(allSmallTextElements[x].style);
+            }
+        }
     }
 })

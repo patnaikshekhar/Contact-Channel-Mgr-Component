@@ -1,7 +1,7 @@
 .THIS .card {
     padding: 10px;
     background-color: white;
-    box-shadow: 0 0 1px rgba(76,86,103,.25), 0 2px 18px rgba(31,37,50,.32);
+    /*box-shadow: 0 0 1px rgba(76,86,103,.25), 0 2px 18px rgba(31,37,50,.32);*/
     height: 450px;
     overflow: scroll;
 }
@@ -21,4 +21,21 @@
 
 .THIS .send-message {
     margin-top: 10px;
+}
+
+.THIS .slds-media__figure img {
+    height: 100%;
+}
+
+.THIS .file {
+    text-align: center;
+}
+
+.THIS input[type=file] {
+    height: 0;
+    width: 0;
+}
+
+.THIS .attach-icon {
+    margin-bottom: 5px;
 }

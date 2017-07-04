@@ -1,5 +1,6 @@
 <aura:component access="Public">
 	
+    <aura:attribute name="primaryColor" type="String" access="Public" />
     <aura:attribute name="messages" type="Object[]" access="Public" />
     <aura:attribute name="placeholderText" type="String" access="Public" />
     
@@ -7,8 +8,12 @@
     
     <aura:registerEvent name="onSendMessage" type="c:standardJSEvent" description="Event fired when enter is clicked" access="Public" />
     
-    <div class="message-box slds-feed">
-        <div class="message-form">
+    <div class="{! 'message-box slds-feed ' + 
+                    (v.messages ? (v.messages.length &gt; 0 ? 'border-bottom ' : '') : 
+                    	'' ) }">
+        <div class="{! 'message-form ' + 
+                    (v.messages ? (v.messages.length &gt; 0 ? 'less-margin-bottom ' : 'margin-bottom ') : 
+                    	'margin-bottom ' ) }">
         	<input type="text" placeholder="{! v.placeholderText }" class="slds-input message-text" onkeyup="{! c.triggerSendMessage }" aura:id="messageText"/>
             <aura:if isTrue="{! v.uploadedFileName == '' }">
             	<lightning:buttonIcon iconName="utility:attach" variant="bare" alternativeText="Attach" onclick="{! c.attachClicked }" size="large" class="attach-icon" />
@@ -34,7 +39,7 @@
                             <div class="slds-media__body">
                                 <span class="smaller-text">{! message.actor }</span>
                                 <div class="slds-post__content slds-text-longform">
-                                    <span>{! message.text }</span>
+                                    <span><aura:unescapedHtml value="{! message.text }"/></span>
                                 </div>
                                 <aura:if isTrue="{! message.file }">
                                     <div class="file">

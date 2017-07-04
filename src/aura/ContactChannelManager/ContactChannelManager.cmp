@@ -15,11 +15,15 @@
     <aura:attribute name="messages" type="Object[]" access="Public" />
     <aura:attribute name="newMessageCount" type="Integer" default="0" access="Public" />
     <aura:attribute name="cmPictureUrl" type="String" default="" access="Public" />
+    <aura:attribute name="notificationStatus" type="String" access="Public" />
     
     <aura:handler name="init" value="{! this }" action="{! c.init }" />
     
     <div class="{! 'messages ' + (v.showMessages ? 'show ': '') }">
-        <c:messageBox messages="{! v.messages }" placeholderText="{! v.placeholderText }" onSendMessage="{! c.sendMessage }"/>
+        <c:messageBox messages="{! v.messages }" 
+                      placeholderText="{! v.placeholderText }" 
+                      primaryColor="{! v.buttonColor }"
+                      onSendMessage="{! c.sendMessage }"/>
     </div>
     <div class="{! 'my-channel-partner ' + (v.showMessages ? 'activated ': '') }" onclick="{! c.showMessageDialog }">        
         <aura:if isTrue="{! v.newMessageCount &gt; 0 }">

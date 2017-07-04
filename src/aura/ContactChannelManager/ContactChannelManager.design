@@ -1,6 +1,11 @@
-<design:component >
+<design:component label="Message Channel Manager">
     <design:attribute name="icon" label="Icon" />
     <design:attribute name="placeholderText" label="Place holder text for message input" />
+    
+    <design:attribute name="buttonColor" label="Button Color" />
+    <design:attribute name="buttonInactiveColor" label="Button Inactive Color" />
+    <design:attribute name="showChannelMgrPictureInsteadOfIcon" label="Show Channel Manager Picture Instead Of Icon" />
+    
     <design:attribute name="cacheMessages" label="Should messages be cached in local storage?" />
     <design:attribute name="refreshMessages" label="Should messages be automatically be refreshed?" description="Turn this off if you hit connect api limits" />
     <design:attribute name="refreshMessageInterval" label="Refresh Interval" />
